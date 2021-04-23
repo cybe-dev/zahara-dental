@@ -1,4 +1,4 @@
-import Background from "../src/images/background";
+import Background from "../src/images/Background";
 import Image from "next/image";
 import DentIcon1 from "../src/images/Dent-Icon-1";
 import { theme } from "../tailwind.config";
