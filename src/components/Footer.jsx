@@ -12,6 +12,8 @@ export default function Footer() {
         <a
           className="p-3 bg-primary-100 flex items-center justify-center rounded-full shadow"
           style={{ backgroundColor: "#128C7E" }}
+          target="_blank"
+          href="http://wa.me/6285270426789"
         >
           <Whatsapp
             className="w-5 h-5 lg:w-6 lg:h-6"

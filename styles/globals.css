@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "FredokaOne";
+  src: url("/fonts/FredokaOne-Regular.ttf");
+}
+
 @responsive {
   .w-768 {
     width: 768px;
@@ -69,4 +74,8 @@
   @apply lg:mt-40;
   @apply xl:mt-48;
   @apply 2xl:mt-56;
+}
+
+.fredoka {
+  font-family: "FredokaOne";
 }

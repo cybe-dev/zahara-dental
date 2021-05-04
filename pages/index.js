@@ -3,15 +3,23 @@ import Image from "next/image";
 import DentIcon1 from "../src/images/Dent-Icon-1";
 import { theme } from "../tailwind.config";
 import Container from "../src/components/Container";
+import SocialMediaButton from "../src/components/SocialMediaButton";
 import WhyChooseContainer, { WhyChooseList } from "../src/components/WhyChoose";
 import BackgroundMobile from "../src/images/BackgroundMobile";
 import Welcome from "../src/images/Welcome";
 import ServiceContainer, { ServiceList } from "../src/components/Service";
 import GalleryContainer, { GalleryList } from "../src/components/Gallery";
+import Head from "next/head";
+import Instagram from "../src/images/Instagram";
+import Logo from "../src/images/Logo";
+import Facebook from "../src/images/Facebook";
 
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>Zahara Dental Care</title>
+      </Head>
       <Background
         className="h-screen w-full absolute top-0 left-0 z-0 bg-grayscale-100 hidden lg:block"
         fill={theme.colors.background}
@@ -36,7 +44,7 @@ export default function Home() {
           <div className="absolute right-0 z-10 top-0 bottom-0 items-center pt-16 hidden lg:flex">
             <div className="lg:p-2 xl:p-5 bg-grayscale-100 shadow-lg rounded-lg">
               <Image
-                src="/dentist.jpg"
+                src="/images/dentist.jpg"
                 width={240}
                 height={320}
                 className="rounded-lg"
@@ -106,29 +114,53 @@ export default function Home() {
             Galeri
           </h3>
           <GalleryContainer>
-            <GalleryList text="Bleaching" />
-            <GalleryList text="Perawatan Syaraf Gigi" />
-            <GalleryList text="Gigi Tiruan" />
-            <GalleryList text="Implan Gigi" />
-            <GalleryList text="Operasi Gigi Bungsu" />
-            <GalleryList text="Scaling" />
-            <GalleryList text="Penambalan Gigi" />
-            <GalleryList text="Gum Lifting" />
+            <GalleryList text="Bleaching" image="/images/img-1.jpg" />
+            <GalleryList
+              text="Perawatan Syaraf Gigi"
+              image="/images/img-2.jpg"
+            />
+            <GalleryList text="Gigi Tiruan" image="/images/img-3.jpg" />
+            <GalleryList text="Implan Gigi" image="/images/img-4.jpg" />
+            <GalleryList text="Operasi Gigi Bungsu" image="/images/img-2.jpg" />
+            <GalleryList text="Scaling" image="/images/img-4.jpg" />
+            <GalleryList text="Penambalan Gigi" image="/images/img-1.jpg" />
+            <GalleryList text="Gum Lifting" image="/images/img-3.jpg" />
           </GalleryContainer>
         </Container>
       </div>
       <div className="relative bg-grayscale-100 border-t border-grayscale-200">
         <Container className="z-10 relative flex flex-col lg:flex-row py-20 px-3 lg:px-0">
-          <div className="lg:w-2/4 flex-1 lg:mr-16">
-            <h2 className="font-bold text-xl text-primary-200">
-              Zahara Dental
+          <div className="lg:w-1/3 lg:mr-16">
+            <h2 className="font-bold flex items-center text-primary-200">
+              <Logo width={52} height={46} />{" "}
+              <div className="ml-3">
+                <span
+                  className="block fredoka text-xl"
+                  style={{ letterSpacing: 4 }}
+                >
+                  ZAHARA
+                </span>
+                <span className="block text-grayscale-600">DENTAL CARE</span>
+              </div>
             </h2>
-            <div className="text-grayscale-700 text-justify mt-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              interdum dignissim quam, at varius odio lobortis ut. Aenean nisl
-              enim, egestas in lorem sed, fermentum fermentum erat. Vivamus nisl
-              metus, tempus eu metus eget, semper pellentesque erat. Aliquam
-              sagittis mi vel velit consequat maximus.
+            <div className="text-grayscale-700 text-justify mt-3">
+              Kami selalu berupaya mengoptimalkan pelayanan kepada pelanggan
+              dengan customer service yang sigap dan perawatan gigi yang minim
+              trauma. Kami juga memberikan konsultasi gratis secara luring baik
+              kepada pasien kami ataupun bukan.
+            </div>
+            <div className="mt-4 flex">
+              <SocialMediaButton
+                icon={Instagram}
+                target="_blank"
+                href="https://instagram.com/zaharadentalcare"
+              />
+              <SocialMediaButton
+                icon={Facebook}
+                target="_blank"
+                className="ml-2"
+                href="https://facebook.com/zaharaklinikgigi"
+              />
             </div>
           </div>
           <div className="lg:w-1/5 ml-0 lg:ml-5 mt-8 lg:mt-0">
@@ -161,6 +193,15 @@ export default function Home() {
                 <a className="mt-1 block text-grayscale-700">Layanan 3</a>
               </li>
             </ul>
+          </div>
+          <div className="lg:w-1/5 ml-0 lg:ml-5 mt-8 lg:mt-0">
+            <h3 className="text-primary-400 poppins font-bold">
+              Jam Operasional
+            </h3>
+            <div className="arimo mt-3 text-grayscale-800 flex flex-col">
+              <span className="font-bold">Senin - Jum'at</span>
+              <span>08.00 - 14.00 & 17.00 - 21.00</span>
+            </div>
           </div>
         </Container>
       </div>

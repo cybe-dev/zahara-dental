@@ -2,7 +2,7 @@ export default function DentIcon1(props) {
   return (
     <svg
       id="Capa_1"
-      enable-background="new 0 0 511.849 511.849"
+      enableBackground="new 0 0 511.849 511.849"
       height="512"
       viewBox="0 0 511.849 511.849"
       width="512"

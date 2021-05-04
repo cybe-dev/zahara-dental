@@ -4,6 +4,7 @@ import Container from "./Container";
 import { theme } from "../../tailwind.config";
 import Close from "../images/Close";
 import Schedule from "../images/Schedule";
+import Logo from "../images/Logo";
 
 export default function Header() {
   const [transparent, setTransparent] = useState(true);
@@ -33,7 +34,22 @@ export default function Header() {
     >
       <Container className="flex justify-between items-center h-full">
         <div>
-          <a className="font-bold text-xl text-primary-100">Zahara Dental</a>
+          <h1>
+            <a className="font-bold text-primary-100 flex items-center">
+              <Logo width={36} height={32} />{" "}
+              <div className="ml-3">
+                <span
+                  className="block fredoka text-sm"
+                  style={{ letterSpacing: 4 }}
+                >
+                  ZAHARA
+                </span>
+                <span className="block text-xs text-grayscale-600">
+                  DENTAL CARE
+                </span>
+              </div>
+            </a>
+          </h1>
         </div>
         <button
           type="button"
@@ -83,17 +99,29 @@ export default function Header() {
           </div>
           <ul className="block lg:flex">
             <li>
-              <a href="#">Home</a>
+              <a href="#">Beranda</a>
             </li>
             <li>
-              <a href="#">About</a>
+              <a href="#">Tentang</a>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <a href="#">Testimoni</a>
+            </li>
+            <li>
+              <a href="#">Tips, Berita & Promo</a>
             </li>
           </ul>
           <div className="flex flex-col items-start border-t border-grayscale-200 lg:border-t-0 mt-10 lg:mt-0">
-            <a className="flex mt-5 lg:mt-0 lg:ml-8 py-2 px-3 bg-primary-100 rounded-lg text-grayscale-100 items-center hover:bg-primary-200">
+            <a
+              className="flex mt-5 lg:mt-0 lg:ml-8 py-2 px-3 bg-primary-100 rounded-lg text-grayscale-100 items-center hover:bg-primary-200"
+              target="_blank"
+              href={
+                "https://wa.me/6285270426789?text=" +
+                encodeURIComponent(
+                  "Nama Lengkap :\r\nNomor Telepon :\r\nPerawatan :\r\nTanggal :\r\nWaktu :"
+                )
+              }
+            >
               <Schedule
                 width={16}
                 height={16}
