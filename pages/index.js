@@ -14,6 +14,14 @@ import Instagram from "../src/images/Instagram";
 import Logo from "../src/images/Logo";
 import Facebook from "../src/images/Facebook";
 
+export const getStaticProps = () => {
+  return {
+    props: {
+      headerTransparentFirst: true,
+    },
+  };
+};
+
 export default function Home() {
   return (
     <>
@@ -129,7 +137,7 @@ export default function Home() {
         </Container>
       </div>
       <div className="relative bg-grayscale-100 border-t border-grayscale-200">
-        <Container className="z-10 relative flex flex-col lg:flex-row py-20 px-3 lg:px-0">
+        <Container className="z-10 relative flex flex-col lg:flex-row lg:justify-between py-20 px-3 lg:px-0">
           <div className="lg:w-1/3 lg:mr-16">
             <h2 className="font-bold flex items-center text-primary-200">
               <Logo width={52} height={46} />{" "}
@@ -149,38 +157,8 @@ export default function Home() {
               trauma. Kami juga memberikan konsultasi gratis secara luring baik
               kepada pasien kami ataupun bukan.
             </div>
-            <div className="mt-4 flex">
-              <SocialMediaButton
-                icon={Instagram}
-                target="_blank"
-                href="https://instagram.com/zaharadentalcare"
-              />
-              <SocialMediaButton
-                icon={Facebook}
-                target="_blank"
-                className="ml-2"
-                href="https://facebook.com/zaharaklinikgigi"
-              />
-            </div>
           </div>
-          <div className="lg:w-1/5 ml-0 lg:ml-5 mt-8 lg:mt-0">
-            <h3 className="text-primary-400 poppins font-bold">Halaman</h3>
-            <ul className="mt-3">
-              <li>
-                <a className="mt-1 block text-grayscale-700">Profil Klinik</a>
-              </li>
-              <li>
-                <a className="mt-1 block text-grayscale-700">Jadwal Praktek</a>
-              </li>
-              <li>
-                <a className="mt-1 block text-grayscale-700">Harga</a>
-              </li>
-              <li>
-                <a className="mt-1 block text-grayscale-700">Testimoni</a>
-              </li>
-            </ul>
-          </div>
-          <div className="lg:w-1/5 ml-0 lg:ml-5 mt-8 lg:mt-0">
+          <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
             <h3 className="text-primary-400 poppins font-bold">Layanan</h3>
             <ul className="mt-3">
               <li>
@@ -194,13 +172,29 @@ export default function Home() {
               </li>
             </ul>
           </div>
-          <div className="lg:w-1/5 ml-0 lg:ml-5 mt-8 lg:mt-0">
+          <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
             <h3 className="text-primary-400 poppins font-bold">
               Jam Operasional
             </h3>
             <div className="arimo mt-3 text-grayscale-800 flex flex-col">
               <span className="font-bold">Senin - Jum'at</span>
               <span>08.00 - 14.00 & 17.00 - 21.00</span>
+            </div>
+          </div>
+          <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
+            <h3 className="text-primary-400 poppins font-bold">Ikuti Kami</h3>
+            <div className="mt-3 flex">
+              <SocialMediaButton
+                icon={Instagram}
+                target="_blank"
+                href="https://instagram.com/zaharadentalcare"
+              />
+              <SocialMediaButton
+                icon={Facebook}
+                target="_blank"
+                className="ml-2"
+                href="https://facebook.com/zaharaklinikgigi"
+              />
             </div>
           </div>
         </Container>

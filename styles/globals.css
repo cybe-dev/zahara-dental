@@ -61,6 +61,12 @@
   @apply relative;
 }
 
+.ratio-16-9 {
+  width: 100%;
+  padding-top: 56.25%;
+  @apply relative;
+}
+
 .banner-foot:after {
   content: "";
   @apply absolute;
@@ -78,4 +84,88 @@
 
 .fredoka {
   font-family: "FredokaOne";
+}
+
+.breadcrumb {
+  @apply flex;
+}
+
+.breadcrumb li + li:before {
+  @apply mx-3;
+  content: "»";
+}
+
+.breadcrumb li {
+  @apply block;
+  @apply py-1;
+  @apply text-grayscale-700;
+  font-family: "Roboto", sans-serif;
+  @apply text-sm;
+  @apply lg:text-base;
+}
+
+.breadcrumb li a:hover {
+  @apply underline;
+}
+
+.noreset p {
+  margin: 1em 0;
+}
+
+.noreset blockquote,
+.noreset figure {
+  margin: 1em 40px;
+}
+
+.noreset h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+
+.noreset h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.83em 0;
+}
+
+.noreset h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+.noreset h4 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 1.33em 0;
+}
+
+.noreset h5 {
+  font-size: 0.83em;
+  font-weight: bold;
+  margin: 1.67em 0;
+}
+
+.noreset h6 {
+  font-size: 0.67em;
+  font-weight: bold;
+  margin: 2.33em 0;
+}
+
+.noreset ul,
+.noreset menu {
+  list-style-type: disc;
+  margin: 1em 0;
+  padding: 0 0 0 40px;
+}
+
+.noreset ol {
+  list-style-type: decimal;
+  margin: 1em 0;
+  padding: 0 0 0 40px;
+}
+
+.roboto {
+  font-family: "Roboto", sans-serif;
 }
