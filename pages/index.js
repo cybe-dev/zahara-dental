@@ -100,7 +100,7 @@ export default function Home() {
           <h3 className="font-bold poppins text-xl lg:text-2xl text-center text-primary-300">
             Layanan
           </h3>
-          <ServiceContainer>
+          <ServiceContainer className="mt-16">
             <ServiceList icon={DentIcon1} name="Veneer" />
             <ServiceList icon={DentIcon1} name="Root Canal" />
             <ServiceList icon={DentIcon1} name="Operasi Impaksi" />

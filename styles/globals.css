@@ -169,3 +169,32 @@
 .roboto {
   font-family: "Roboto", sans-serif;
 }
+
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  @apply -ml-5;
+  width: auto;
+}
+.my-masonry-grid_column {
+  @apply pl-5;
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div {
+  /* change div to reference your elements you put in <Masonry> */
+  @apply mb-5;
+}
+
+.image-container > div {
+  position: unset !important;
+}
+
+.image-container .image {
+  object-fit: contain;
+  width: 100% !important;
+  position: relative !important;
+  height: unset !important;
+}

@@ -4,7 +4,9 @@ export const TestimoniList = ({ children, name, title }) => (
     <div className="flex mt-5 pt-5 border-t border-grayscale-200">
       <div className="w-12 h-12 rounded-full bg-grayscale-300" />
       <div className="ml-5">
-        <span className="block text-primary-200 poppins font-bold">{name}</span>
+        <span className="block text-primary-200 poppins font-bold text-sm">
+          {name}
+        </span>
         <span className="text-sm">{title}</span>
       </div>
     </div>

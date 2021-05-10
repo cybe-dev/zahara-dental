@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Container from "../src/components/Container";
-import HeadingPage from "../src/components/HeadingPage";
-import { default as PromoParent, PromoList } from "../src/components/Promo";
+import Container from "../../src/components/Container";
+import HeadingPage from "../../src/components/HeadingPage";
+import { default as PromoParent, PromoList } from "../../src/components/Promo";
 
 export default function Promo() {
   return (

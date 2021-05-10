@@ -1,4 +1,5 @@
 import Head from "next/head";
+import BaseCard from "../src/components/BaseCard";
 import Container from "../src/components/Container";
 import HeadingPage from "../src/components/HeadingPage";
 
@@ -20,7 +21,7 @@ export default function Tentang() {
         ]}
         title="Tentang Kami"
       />
-      <div className="bg-grayscale-100 p-5 mb-16 noreset rounded-md">
+      <BaseCard className="mb-16 noreset">
         <div className="h-64 w-64 mt-5 mr-5 mb-5 float-left bg-grayscale-200" />
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec
@@ -76,7 +77,7 @@ export default function Tentang() {
           felis semper elementum. Sed sit amet mollis augue. Duis ornare
           placerat euismod.
         </p>
-      </div>
+      </BaseCard>
     </Container>
   );
 }
