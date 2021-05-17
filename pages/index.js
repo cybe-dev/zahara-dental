@@ -1,6 +1,5 @@
 import Background from "../src/images/Background";
 import Image from "next/image";
-import DentIcon1 from "../src/images/Dent-Icon-1";
 import { theme } from "../tailwind.config";
 import Container from "../src/components/Container";
 import SocialMediaButton from "../src/components/SocialMediaButton";
@@ -11,22 +10,56 @@ import ServiceContainer, { ServiceList } from "../src/components/Service";
 import GalleryContainer, { GalleryList } from "../src/components/Gallery";
 import Head from "next/head";
 import Instagram from "../src/images/Instagram";
-import Logo from "../src/images/Logo";
 import Facebook from "../src/images/Facebook";
+import IconCentre from "../src/images/IconCentre";
+import Link from "next/link";
+import service from "../src/service";
 
-export const getStaticProps = () => {
+export const getServerSideProps = async () => {
+  let basicInformation, kelebihan, services, gallery, pages;
+  try {
+    basicInformation = (await service.get("/basic-information")).data.success
+      .data;
+    kelebihan = (await service.get("/post/kelebihan")).data.success.data.rows;
+    services = (await service.get("/post/layanan?limit=100&nodesc=1")).data
+      .success.data.rows;
+    pages = (await service.get("/post/halaman?limit=100&nodesc=1")).data.success
+      .data.rows;
+    gallery = (await service.get("/gallery/type/layanan")).data.success.data
+      .rows;
+  } catch (e) {
+    return {
+      props: {
+        status: 500,
+      },
+    };
+  }
   return {
     props: {
-      headerTransparentFirst: true,
+      basicInformation,
+      kelebihan,
+      services,
+      gallery,
+      pages,
+      headerProps: {
+        transparentFirst: true,
+        h1: true,
+      },
     },
   };
 };
 
-export default function Home() {
+export default function Home({
+  basicInformation,
+  kelebihan,
+  services,
+  gallery,
+  pages,
+}) {
   return (
     <>
       <Head>
-        <title>Zahara Dental Care</title>
+        <title>{basicInformation.clinicName}</title>
       </Head>
       <Background
         className="h-screen w-full absolute top-0 left-0 z-0 bg-grayscale-100 hidden lg:block"
@@ -44,9 +77,7 @@ export default function Home() {
               Selamat Datang!
             </h1>
             <h2 className="text-grayscale-700 text-center lg:text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque. Maecenas nunc felis,
-              viverra non sem vitae, consequat mollis ante.
+              {basicInformation.welcomeText}
             </h2>
           </div>
           <div className="absolute right-0 z-10 top-0 bottom-0 items-center pt-16 hidden lg:flex">
@@ -68,30 +99,15 @@ export default function Home() {
             Mengapa Memilih Klinik Kami?
           </h3>
           <WhyChooseContainer>
-            <WhyChooseList icon={DentIcon1} title="Contoh Text 1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque.
-            </WhyChooseList>
-            <WhyChooseList icon={DentIcon1} title="Contoh Text 1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque.
-            </WhyChooseList>
-            <WhyChooseList icon={DentIcon1} title="Contoh Text 1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque.
-            </WhyChooseList>
-            <WhyChooseList icon={DentIcon1} title="Contoh Text 1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque.
-            </WhyChooseList>
-            <WhyChooseList icon={DentIcon1} title="Contoh Text 1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque.
-            </WhyChooseList>
-            <WhyChooseList icon={DentIcon1} title="Contoh Text 1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              suscipit consectetur arcu nec scelerisque.
-            </WhyChooseList>
+            {kelebihan?.map((item, index) => (
+              <WhyChooseList
+                key={`${index}`}
+                icon={IconCentre[item.thumbnail || "default"]}
+                title={item.title}
+              >
+                {item.text}
+              </WhyChooseList>
+            ))}
           </WhyChooseContainer>
         </Container>
       </div>
@@ -101,18 +117,14 @@ export default function Home() {
             Layanan
           </h3>
           <ServiceContainer className="mt-16">
-            <ServiceList icon={DentIcon1} name="Veneer" />
-            <ServiceList icon={DentIcon1} name="Root Canal" />
-            <ServiceList icon={DentIcon1} name="Operasi Impaksi" />
-            <ServiceList icon={DentIcon1} name="Orthodontic" />
-            <ServiceList icon={DentIcon1} name="Bleaching" />
-            <ServiceList icon={DentIcon1} name="Scaling" />
-            <ServiceList icon={DentIcon1} name="Tambal Gigi" />
-            <ServiceList icon={DentIcon1} name="Cabut Gigi" />
-            <ServiceList icon={DentIcon1} name="Dental Crown" />
-            <ServiceList icon={DentIcon1} name="Fissure Sealant" />
-            <ServiceList icon={DentIcon1} name="Dental Implant" />
-            <ServiceList icon={DentIcon1} name="Dental Spa" />
+            {services?.map((item, index) => (
+              <ServiceList
+                key={`${index}`}
+                icon={IconCentre[item.thumbnail || "default"]}
+                name={item.title}
+                slug={item.slug}
+              />
+            ))}
           </ServiceContainer>
         </Container>
       </div>
@@ -122,54 +134,50 @@ export default function Home() {
             Galeri
           </h3>
           <GalleryContainer>
-            <GalleryList text="Bleaching" image="/images/img-1.jpg" />
-            <GalleryList
-              text="Perawatan Syaraf Gigi"
-              image="/images/img-2.jpg"
-            />
-            <GalleryList text="Gigi Tiruan" image="/images/img-3.jpg" />
-            <GalleryList text="Implan Gigi" image="/images/img-4.jpg" />
-            <GalleryList text="Operasi Gigi Bungsu" image="/images/img-2.jpg" />
-            <GalleryList text="Scaling" image="/images/img-4.jpg" />
-            <GalleryList text="Penambalan Gigi" image="/images/img-1.jpg" />
-            <GalleryList text="Gum Lifting" image="/images/img-3.jpg" />
+            {gallery?.map((item, index) => (
+              <GalleryList
+                key={`${index}`}
+                slug={item.post.slug}
+                text={item.post.title}
+                image={item.path?.replace(
+                  "public",
+                  process.env.NEXT_PUBLIC_BASE_URL
+                )}
+              />
+            ))}
           </GalleryContainer>
         </Container>
       </div>
       <div className="relative bg-grayscale-100 border-t border-grayscale-200">
         <Container className="z-10 relative flex flex-col lg:flex-row lg:justify-between py-20 px-3 lg:px-0">
           <div className="lg:w-1/3 lg:mr-16">
-            <h2 className="font-bold flex items-center text-primary-200">
-              <Logo width={52} height={46} />{" "}
-              <div className="ml-3">
-                <span
-                  className="block fredoka text-xl"
-                  style={{ letterSpacing: 4 }}
-                >
-                  ZAHARA
-                </span>
-                <span className="block text-grayscale-600">DENTAL CARE</span>
-              </div>
-            </h2>
-            <div className="text-grayscale-700 text-justify mt-3">
-              Kami selalu berupaya mengoptimalkan pelayanan kepada pelanggan
-              dengan customer service yang sigap dan perawatan gigi yang minim
-              trauma. Kami juga memberikan konsultasi gratis secara luring baik
-              kepada pasien kami ataupun bukan.
+            <div className="h-16 w-full relative">
+              <Image
+                src={basicInformation?.logo?.replace(
+                  "public",
+                  process.env.NEXT_PUBLIC_BASE_URL
+                )}
+                layout="fill"
+                objectFit="contain"
+                objectPosition="left"
+              />
+            </div>
+            <div className="text-grayscale-700 text-justify mt-5">
+              {basicInformation.description}
             </div>
           </div>
           <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
-            <h3 className="text-primary-400 poppins font-bold">Layanan</h3>
+            <h3 className="text-primary-400 poppins font-bold">Halaman</h3>
             <ul className="mt-3">
-              <li>
-                <a className="mt-1 block text-grayscale-700">Layanan 1</a>
-              </li>
-              <li>
-                <a className="mt-1 block text-grayscale-700">Layanan 2</a>
-              </li>
-              <li>
-                <a className="mt-1 block text-grayscale-700">Layanan 3</a>
-              </li>
+              {pages?.map((item, index) => (
+                <li key={`${index}`}>
+                  <Link href={`/halaman/${item.slug}`}>
+                    <a className="mt-1 block text-grayscale-700 hover:text-primary-100">
+                      {item.title}
+                    </a>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
@@ -177,8 +185,16 @@ export default function Home() {
               Jam Operasional
             </h3>
             <div className="arimo mt-3 text-grayscale-800 flex flex-col">
-              <span className="font-bold">Senin - Jum'at</span>
-              <span>08.00 - 14.00 & 17.00 - 21.00</span>
+              <span className="font-bold">
+                {basicInformation.operationalDay}
+              </span>
+              <span>{basicInformation.operationalHour}</span>
+            </div>
+            <div className="arimo mt-3 lg:w-64 flex flex-col">
+              <span className="text-grayscale-800 font-bold">Alamat</span>
+              <span className="text-grayscale-700 flex-1">
+                {basicInformation?.address}
+              </span>
             </div>
           </div>
           <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
@@ -187,13 +203,13 @@ export default function Home() {
               <SocialMediaButton
                 icon={Instagram}
                 target="_blank"
-                href="https://instagram.com/zaharadentalcare"
+                href={basicInformation.instagram}
               />
               <SocialMediaButton
                 icon={Facebook}
                 target="_blank"
                 className="ml-2"
-                href="https://facebook.com/zaharaklinikgigi"
+                href={basicInformation.facebook}
               />
             </div>
           </div>

@@ -1,8 +1,21 @@
-export const TestimoniList = ({ children, name, title }) => (
+import Image from "next/image";
+
+export const TestimoniList = ({ children, name, title, pic }) => (
   <div className="flex flex-col bg-grayscale-100 hover:shadow-lg rounded-lg roboto p-5 text-grayscale-700">
     <div className="flex-1">{children}</div>
     <div className="flex mt-5 pt-5 border-t border-grayscale-200">
-      <div className="w-12 h-12 rounded-full bg-grayscale-300" />
+      <div className="w-12 h-12 relative rounded-full bg-grayscale-300">
+        {pic && (
+          <Image
+            src={pic}
+            height={64}
+            width={64}
+            objectFit="cover"
+            objectPosition="top"
+            className="rounded-full"
+          />
+        )}
+      </div>
       <div className="ml-5">
         <span className="block text-primary-200 poppins font-bold text-sm">
           {name}

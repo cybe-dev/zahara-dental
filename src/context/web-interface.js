@@ -4,19 +4,21 @@ export const WebInterfaceContext = React.createContext();
 
 const reducer = (value, action) => {
   switch (action.type) {
-    case "transparentFirst":
+    case "basicInformation":
       return {
         ...value,
-        transparentFirst: action.value,
+        basicInformation: action.value,
       };
     default:
       throw new Error();
   }
 };
 
-export default function WebInterface({ children }) {
+export const useWeb = () => React.useContext(WebInterfaceContext);
+
+export default function WebInterface({ basicInformation, children }) {
   const [state, dispatch] = React.useReducer(reducer, {
-    transparentFirst: false,
+    basicInformation,
   });
   return (
     <WebInterfaceContext.Provider value={{ state, dispatch }}>

@@ -5,13 +5,12 @@ import { default as PromoParent, PromoList } from "../../src/components/Promo";
 import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
-  let promo, basicInformation;
+  let blog, basicInformation;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
-    promo = (
-      await service.get("/post/promo", { params: { offset: 0, limit: 12 } })
-    ).data.success.data.rows;
+    blog = (await service.get("/blog", { params: { offset: 0, limit: 12 } }))
+      .data.success.data.rows;
   } catch (e) {
     return {
       props: {
@@ -23,16 +22,16 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       basicInformation,
-      promo,
+      blog,
     },
   };
 };
 
-export default function Promo({ promo }) {
+export default function Blog({ blog }) {
   return (
     <Container>
       <Head>
-        <title>Promo</title>
+        <title>Blog</title>
       </Head>
       <HeadingPage
         breadcrumbItems={[
@@ -41,22 +40,20 @@ export default function Promo({ promo }) {
             title: "Beranda",
           },
           {
-            title: "Promo",
+            title: "Blog",
           },
         ]}
-        title="Promo"
+        title="Blog"
       />
       <PromoParent>
-        {promo?.map((item, index) => (
+        {blog?.map((item, index) => (
           <PromoList
             key={`${index}`}
             title={item.title}
-            imgSource={item.thumbnail?.replace(
-              "public",
-              process.env.NEXT_PUBLIC_BASE_URL
-            )}
+            imgSource={""}
             time={item.createdAt}
             slug={item.slug}
+            prefix="/blog"
           />
         ))}
       </PromoParent>

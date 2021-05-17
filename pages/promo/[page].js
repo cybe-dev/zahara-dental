@@ -5,14 +5,23 @@ import { default as PromoParent, PromoList } from "../../src/components/Promo";
 import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
+  const { page } = context.params;
+  const offset = (parseInt(page) - 1) * 12;
   let promo, basicInformation;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
     promo = (
-      await service.get("/post/promo", { params: { offset: 0, limit: 12 } })
+      await service.get("/post/promo", { params: { offset, limit: 12 } })
     ).data.success.data.rows;
   } catch (e) {
+    if (Number.isNaN(offset)) {
+      return {
+        props: {
+          status: 404,
+        },
+      };
+    }
     return {
       props: {
         status: 500,
@@ -24,15 +33,16 @@ export const getServerSideProps = async (context) => {
     props: {
       basicInformation,
       promo,
+      page,
     },
   };
 };
 
-export default function Promo({ promo }) {
+export default function Promo({ promo, page }) {
   return (
     <Container>
       <Head>
-        <title>Promo</title>
+        <title>Promo / Halaman : {page}</title>
       </Head>
       <HeadingPage
         breadcrumbItems={[

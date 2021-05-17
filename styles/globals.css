@@ -108,13 +108,13 @@
   @apply underline;
 }
 
-.noreset p {
-  margin: 1em 0;
-}
-
 .noreset blockquote,
 .noreset figure {
   margin: 1em 40px;
+}
+
+.noreset a {
+  @apply text-primary-300;
 }
 
 .noreset h1 {
@@ -197,4 +197,11 @@
   width: 100% !important;
   position: relative !important;
   height: unset !important;
+}
+
+.image-container .image-h {
+  object-fit: contain;
+  height: 100% !important;
+  position: relative !important;
+  width: unset !important;
 }

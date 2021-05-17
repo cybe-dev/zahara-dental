@@ -8,13 +8,13 @@ module.exports = {
     colors: {
       accent: "#ffeebb",
       transparent: "transparent",
-      background: "#e9f5f9",
+      background: "#e6f8f9",
       primary: {
-        100: "#2596be",
-        200: "#2187ab",
-        300: "#1e7898",
-        400: "#1a6985",
-        500: "#165a72",
+        100: "#00b4c5",
+        200: "#00a2b1",
+        300: "#00909e",
+        400: "#007e8a",
+        500: "#006c76",
       },
       grayscale: {
         100: "#ffffff",

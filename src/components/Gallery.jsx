@@ -1,25 +1,28 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export function GalleryList({ text, image }) {
+export function GalleryList({ text, slug, image }) {
   return (
-    <div className="p-2">
-      <div className="ratio-1-1">
-        <div className="rounded-xl absolute top-0 left-0 w-full h-full flex justify-center items-center">
-          {image ? (
-            <Image
-              src={image}
-              width={500}
-              height={500}
-              objectFit="contain"
-              className="w-full h-full rounded-xl"
-            />
-          ) : null}
+    <Link href={`/layanan/${slug}`}>
+      <a className="p-2">
+        <div className="ratio-1-1">
+          <div className="rounded-xl absolute top-0 left-0 w-full h-full flex justify-center items-center">
+            {image ? (
+              <Image
+                src={image}
+                width={500}
+                height={500}
+                objectFit="contain"
+                className="w-full h-full rounded-xl"
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
-      <div className="text-center mt-2 text-grayscale-800 arimo font-bold">
-        {text}
-      </div>
-    </div>
+        <div className="text-center mt-2 text-grayscale-800 arimo font-bold">
+          {text}
+        </div>
+      </a>
+    </Link>
   );
 }
 

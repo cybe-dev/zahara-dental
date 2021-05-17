@@ -4,21 +4,26 @@ import Container from "./Container";
 import { theme } from "../../tailwind.config";
 import Close from "../images/Close";
 import Schedule from "../images/Schedule";
-import Logo from "../images/Logo";
 import Link from "next/link";
+import { useWeb } from "../context/web-interface";
+import Image from "next/image";
 
-const NavbarList = ({ href, children, ...props }) => (
-  <li>
+const NavbarList = ({ href, children, onClick, ...props }) => (
+  <li onClick={onClick}>
     <Link href={href}>
       <a {...props}>{children}</a>
     </Link>
   </li>
 );
 
-export default function Header({ transparentFirst = false }) {
+export default function Header({ transparentFirst = false, h1 = false }) {
   const [transparent, setTransparent] = useState(true);
   const [offsetY, setOffsetY] = useState(0);
   const [navbarShown, setNavbarShown] = useState(false);
+  const HeadComponent = h1 ? "h1" : "div";
+  const {
+    state: { basicInformation },
+  } = useWeb();
 
   useEffect(() => {
     if (offsetY > 0 || !transparentFirst) {
@@ -55,26 +60,27 @@ export default function Header({ transparentFirst = false }) {
           <div
             className={
               transparent
-                ? "opacity-0 lg:opacity-100 lg:w-1/4 transition-all duration-500"
-                : "opacity-100 lg:opacity-100 lg:w-1/4 transition-all duration-500"
+                ? "opacity-0 lg:opacity-100 w-1/4 transition-all duration-500"
+                : "opacity-100 lg:opacity-100 w-1/4 transition-all duration-500"
             }
           >
-            <h1>
-              <a className="font-bold text-primary-100 flex items-center">
-                <Logo width={36} height={32} />{" "}
-                <div className="ml-3">
-                  <span
-                    className="block fredoka text-sm"
-                    style={{ letterSpacing: 4 }}
-                  >
-                    ZAHARA
-                  </span>
-                  <span className="block text-xs text-grayscale-600">
-                    DENTAL CARE
-                  </span>
-                </div>
-              </a>
-            </h1>
+            <HeadComponent>
+              <Link href="/">
+                <a className="font-bold text-primary-100 flex items-center h-8 w-full relative">
+                  <Image
+                    src={basicInformation?.logo?.replace(
+                      "public",
+                      process.env.NEXT_PUBLIC_BASE_URL
+                    )}
+                    alt="Logo"
+                    layout="fill"
+                    objectFit="contain"
+                    objectPosition="left"
+                    quality={90}
+                  />
+                </a>
+              </Link>
+            </HeadComponent>
           </div>
           <div
             onClick={() => {
@@ -110,13 +116,27 @@ export default function Header({ transparentFirst = false }) {
               </button>
             </div>
             <ul className="block lg:flex">
-              <NavbarList href="/">Beranda</NavbarList>
-              <NavbarList href="/tentang">Tentang</NavbarList>
-              <NavbarList href="/testimoni">Testimoni</NavbarList>
-              <NavbarList href="/promo">Promo</NavbarList>
-              <li>
-                <a href="#">Blog</a>
-              </li>
+              <NavbarList href="/" onClick={() => setNavbarShown(false)}>
+                Beranda
+              </NavbarList>
+              <NavbarList
+                href="/halaman/tentang-kami"
+                onClick={() => setNavbarShown(false)}
+              >
+                Tentang
+              </NavbarList>
+              <NavbarList
+                href="/testimoni"
+                onClick={() => setNavbarShown(false)}
+              >
+                Testimoni
+              </NavbarList>
+              <NavbarList href="/promo" onClick={() => setNavbarShown(false)}>
+                Promo
+              </NavbarList>
+              <NavbarList href="/blog" onClick={() => setNavbarShown(false)}>
+                Blog
+              </NavbarList>
             </ul>
           </div>
           <div className="lg:w-1/4 flex justify-end">
@@ -124,7 +144,9 @@ export default function Header({ transparentFirst = false }) {
               className="flex lg:py-2 lg:px-3 lg:bg-primary-100 lg:rounded-lg lg:text-grayscale-100 lg:items-center lg:hover:bg-primary-200"
               target="_blank"
               href={
-                "https://wa.me/6285270426789?text=" +
+                `https://wa.me/${basicInformation.whatsapp
+                  .replace(/[^0-9]/g, "")
+                  .replace(/^08/, "628")}?text=` +
                 encodeURIComponent(
                   "Nama Lengkap :\r\nNomor Telepon :\r\nPerawatan :\r\nTanggal :\r\nWaktu :"
                 )

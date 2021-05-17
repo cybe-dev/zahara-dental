@@ -1,11 +1,39 @@
+import Head from "next/head";
 import Container from "../../src/components/Container";
 import HeadingPage from "../../src/components/HeadingPage";
 import ServiceContainer, { ServiceList } from "../../src/components/Service";
-import DentIcon1 from "../../src/images/Dent-Icon-1";
+import IconCentre from "../../src/images/IconCentre";
+import service from "../../src/service";
 
-export default function Service() {
+export const getServerSideProps = async () => {
+  let services, basicInformation;
+  try {
+    basicInformation = (await service.get("/basic-information")).data.success
+      .data;
+    services = (await service.get("/post/layanan?limit=100&nodesc=1")).data
+      .success.data.rows;
+  } catch (e) {
+    return {
+      props: {
+        status: 500,
+      },
+    };
+  }
+
+  return {
+    props: {
+      basicInformation,
+      services,
+    },
+  };
+};
+
+export default function Service({ services }) {
   return (
     <Container>
+      <Head>
+        <title>Layanan</title>
+      </Head>
       <HeadingPage
         breadcrumbItems={[
           {
@@ -19,18 +47,14 @@ export default function Service() {
         title="Layanan"
       />
       <ServiceContainer className="mb-16">
-        <ServiceList icon={DentIcon1} name="Veneer" />
-        <ServiceList icon={DentIcon1} name="Root Canal" />
-        <ServiceList icon={DentIcon1} name="Operasi Impaksi" />
-        <ServiceList icon={DentIcon1} name="Orthodontic" />
-        <ServiceList icon={DentIcon1} name="Bleaching" />
-        <ServiceList icon={DentIcon1} name="Scaling" />
-        <ServiceList icon={DentIcon1} name="Tambal Gigi" />
-        <ServiceList icon={DentIcon1} name="Cabut Gigi" />
-        <ServiceList icon={DentIcon1} name="Dental Crown" />
-        <ServiceList icon={DentIcon1} name="Fissure Sealant" />
-        <ServiceList icon={DentIcon1} name="Dental Implant" />
-        <ServiceList icon={DentIcon1} name="Dental Spa" />
+        {services?.map((item, index) => (
+          <ServiceList
+            icon={IconCentre[item.thumbnail || "default"]}
+            name={item.title}
+            slug={item.slug}
+            key={`${index}`}
+          />
+        ))}
       </ServiceContainer>
     </Container>
   );
