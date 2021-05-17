@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ["localhost", "https://ak-cms.akbaraditama.com"],
+    domains: ["localhost", "ak-cms.akbaraditama.com"],
   },
 };
