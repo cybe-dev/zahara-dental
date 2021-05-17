@@ -113,6 +113,10 @@
   margin: 1em 40px;
 }
 
+.noreset p {
+  @apply mb-5;
+}
+
 .noreset a {
   @apply text-primary-300;
 }
