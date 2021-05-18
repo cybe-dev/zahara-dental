@@ -39,24 +39,30 @@ export const getServerSideProps = async (context) => {
     props: {
       basicInformation,
       detail,
+      metaTag: [
+        {
+          name: "description",
+          content: detail.text.replace(/<\/?[^>]+(>|$)/gm, "").substr(0, 150),
+        },
+      ],
     },
   };
 };
 
-export default function PageDetail({ detail }) {
+export default function PageDetail({ detail, basicInformation }) {
   return (
     <Container>
       <Head>
-        <title>{detail.title}</title>
+        <title>
+          {detail.title} - {basicInformation.clinicName}
+        </title>
       </Head>
       <HeadingPage
+        Heading="h1"
         breadcrumbItems={[
           {
             href: "/",
             title: "Beranda",
-          },
-          {
-            title: detail.title,
           },
         ]}
         title={detail.title}

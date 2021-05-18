@@ -25,9 +25,10 @@ export const getServerSideProps = async () => {
       .success.data.rows;
     pages = (await service.get("/post/halaman?limit=100&nodesc=1")).data.success
       .data.rows;
-    gallery = (await service.get("/gallery/type/layanan")).data.success.data
-      .rows;
+    gallery = (await service.get("/gallery/type/layanan?limit=8")).data.success
+      .data.rows;
   } catch (e) {
+    console.log(e);
     return {
       props: {
         status: 500,
@@ -45,6 +46,12 @@ export const getServerSideProps = async () => {
         transparentFirst: true,
         h1: true,
       },
+      metaTag: [
+        {
+          name: "description",
+          content: basicInformation.description.substr(0, 150),
+        },
+      ],
     },
   };
 };
@@ -73,17 +80,18 @@ export default function Home({
         <Container className="text-grayscale-800 z-10 flex items-center h-full relative">
           <div className="lg:w-2/5">
             <Welcome className="text-primary-100 mb-5 w-4/5 md:w-1/3 lg:w-2/3 mx-auto lg:mx-0" />
-            <h1 className="font-bold text-xl lg:text-2xl xl:text-3xl poppins mb-3 text-center lg:text-left text-grayscale-800">
+            <div className="font-bold text-xl lg:text-2xl xl:text-3xl poppins mb-3 text-center lg:text-left text-grayscale-800">
               Selamat Datang!
-            </h1>
-            <h2 className="text-grayscale-700 text-center lg:text-left">
+            </div>
+            <div className="text-grayscale-700 text-center lg:text-left">
               {basicInformation.welcomeText}
-            </h2>
+            </div>
           </div>
           <div className="absolute right-0 z-10 top-0 bottom-0 items-center pt-16 hidden lg:flex">
             <div className="lg:p-2 xl:p-5 bg-grayscale-100 shadow-lg rounded-lg">
               <Image
                 src="/images/dentist.jpg"
+                alt="Dental Care"
                 width={240}
                 height={320}
                 className="rounded-lg"
@@ -157,22 +165,27 @@ export default function Home({
                   "public",
                   process.env.NEXT_PUBLIC_BASE_URL
                 )}
+                alt={`Logo ${basicInformation.clinicName}`}
                 layout="fill"
                 objectFit="contain"
                 objectPosition="left"
+                quality={90}
               />
             </div>
-            <div className="text-grayscale-700 text-justify mt-5">
+            <h2 className="text-grayscale-700 text-justify mt-5">
               {basicInformation.description}
-            </div>
+            </h2>
           </div>
           <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
-            <h3 className="text-primary-400 poppins font-bold">Halaman</h3>
+            <h4 className="text-primary-400 poppins font-bold">Halaman</h4>
             <ul className="mt-3">
               {pages?.map((item, index) => (
                 <li key={`${index}`}>
                   <Link href={`/halaman/${item.slug}`}>
-                    <a className="mt-1 block text-grayscale-700 hover:text-primary-100">
+                    <a
+                      className="mt-1 block text-grayscale-700 hover:text-primary-100"
+                      title={item.title}
+                    >
                       {item.title}
                     </a>
                   </Link>
@@ -181,31 +194,33 @@ export default function Home({
             </ul>
           </div>
           <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
-            <h3 className="text-primary-400 poppins font-bold">
+            <h4 className="text-primary-400 poppins font-bold">
               Jam Operasional
-            </h3>
+            </h4>
             <div className="arimo mt-3 text-grayscale-800 flex flex-col">
-              <span className="font-bold">
+              <strong className="font-bold">
                 {basicInformation.operationalDay}
-              </span>
+              </strong>
               <span>{basicInformation.operationalHour}</span>
             </div>
             <div className="arimo mt-3 lg:w-64 flex flex-col">
-              <span className="text-grayscale-800 font-bold">Alamat</span>
+              <strong className="text-grayscale-800 font-bold">Alamat</strong>
               <span className="text-grayscale-700 flex-1">
                 {basicInformation?.address}
               </span>
             </div>
           </div>
           <div className="ml-0 lg:ml-5 mt-8 lg:mt-0">
-            <h3 className="text-primary-400 poppins font-bold">Ikuti Kami</h3>
+            <h4 className="text-primary-400 poppins font-bold">Ikuti Kami</h4>
             <div className="mt-3 flex">
               <SocialMediaButton
+                title={`Instagram ${basicInformation.clinicName}`}
                 icon={Instagram}
                 target="_blank"
                 href={basicInformation.instagram}
               />
               <SocialMediaButton
+                title={`Facebook ${basicInformation.clinicName}`}
                 icon={Facebook}
                 target="_blank"
                 className="ml-2"

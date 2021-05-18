@@ -10,6 +10,7 @@ export const TestimoniList = ({ children, name, title, pic }) => (
             src={pic}
             height={64}
             width={64}
+            alt={name}
             objectFit="cover"
             objectPosition="top"
             className="rounded-full"

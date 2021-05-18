@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Container from "../../src/components/Container";
 import HeadingPage from "../../src/components/HeadingPage";
+import NotFound from "../../src/components/NotFound";
 import ServiceContainer, { ServiceList } from "../../src/components/Service";
 import IconCentre from "../../src/images/IconCentre";
 import service from "../../src/service";
@@ -24,38 +25,46 @@ export const getServerSideProps = async () => {
     props: {
       basicInformation,
       services,
+      metaTag: [
+        {
+          name: "description",
+          content: `Daftar layanan atau perawatan yang tersedia di ${basicInformation.clinicName}`,
+        },
+      ],
     },
   };
 };
 
-export default function Service({ services }) {
+export default function Service({ services, basicInformation }) {
   return (
     <Container>
       <Head>
-        <title>Layanan</title>
+        <title>Layanan - {basicInformation.clinicName}</title>
       </Head>
       <HeadingPage
+        Heading="h1"
         breadcrumbItems={[
           {
             href: "/",
             title: "Beranda",
           },
-          {
-            title: "Layanan",
-          },
         ]}
         title="Layanan"
       />
-      <ServiceContainer className="mb-16">
-        {services?.map((item, index) => (
-          <ServiceList
-            icon={IconCentre[item.thumbnail || "default"]}
-            name={item.title}
-            slug={item.slug}
-            key={`${index}`}
-          />
-        ))}
-      </ServiceContainer>
+      {services.length ? (
+        <ServiceContainer className="mb-16">
+          {services?.map((item, index) => (
+            <ServiceList
+              icon={IconCentre[item.thumbnail || "default"]}
+              name={item.title}
+              slug={item.slug}
+              key={`${index}`}
+            />
+          ))}
+        </ServiceContainer>
+      ) : (
+        <NotFound />
+      )}
     </Container>
   );
 }

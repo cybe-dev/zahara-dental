@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Menu from "../images/Menu";
 import Container from "./Container";
 import { theme } from "../../tailwind.config";
@@ -11,31 +11,41 @@ import Image from "next/image";
 const NavbarList = ({ href, children, onClick, ...props }) => (
   <li onClick={onClick}>
     <Link href={href}>
-      <a {...props}>{children}</a>
+      <a title={children} {...props}>
+        {children}
+      </a>
     </Link>
   </li>
 );
 
 export default function Header({ transparentFirst = false, h1 = false }) {
-  const [transparent, setTransparent] = useState(true);
+  const [transparent, setTransparent] = useState(transparentFirst);
   const [offsetY, setOffsetY] = useState(0);
   const [navbarShown, setNavbarShown] = useState(false);
   const HeadComponent = h1 ? "h1" : "div";
   const {
     state: { basicInformation },
   } = useWeb();
+  const mounted = useRef(false);
 
   useEffect(() => {
-    if (offsetY > 0 || !transparentFirst) {
-      setTransparent(false);
-    } else {
-      setTransparent(true);
+    if (mounted.current) {
+      if (offsetY > 0 || !transparentFirst) {
+        setTransparent(false);
+      } else {
+        setTransparent(true);
+      }
     }
   }, [offsetY, transparentFirst]);
 
   useEffect(() => {
+    mounted.current = true;
     window.onscroll = () => {
       setOffsetY(window.pageYOffset);
+    };
+    return () => {
+      window.onscroll = undefined;
+      mounted.current = false;
     };
   }, []);
   return (
@@ -66,13 +76,17 @@ export default function Header({ transparentFirst = false, h1 = false }) {
           >
             <HeadComponent>
               <Link href="/">
-                <a className="font-bold text-primary-100 flex items-center h-8 w-full relative">
+                <a
+                  className="font-bold text-primary-100 flex items-center h-8 w-full relative"
+                  title={basicInformation.clinicName}
+                >
                   <Image
                     src={basicInformation?.logo?.replace(
                       "public",
                       process.env.NEXT_PUBLIC_BASE_URL
                     )}
-                    alt="Logo"
+                    alt={`Logo ${basicInformation.clinicName}`}
+                    title={basicInformation.clinicName}
                     layout="fill"
                     objectFit="contain"
                     objectPosition="left"
@@ -125,6 +139,9 @@ export default function Header({ transparentFirst = false, h1 = false }) {
               >
                 Tentang
               </NavbarList>
+              <NavbarList href="/layanan" onClick={() => setNavbarShown(false)}>
+                Layanan
+              </NavbarList>
               <NavbarList
                 href="/testimoni"
                 onClick={() => setNavbarShown(false)}
@@ -143,6 +160,7 @@ export default function Header({ transparentFirst = false, h1 = false }) {
             <a
               className="flex lg:py-2 lg:px-3 lg:bg-primary-100 lg:rounded-lg lg:text-grayscale-100 lg:items-center lg:hover:bg-primary-200"
               target="_blank"
+              title="Reservasi via Whatsapp"
               href={
                 `https://wa.me/${basicInformation.whatsapp
                   .replace(/[^0-9]/g, "")

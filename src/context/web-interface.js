@@ -16,9 +16,14 @@ const reducer = (value, action) => {
 
 export const useWeb = () => React.useContext(WebInterfaceContext);
 
-export default function WebInterface({ basicInformation, children }) {
+export default function WebInterface({
+  basicInformation,
+  categoryList,
+  children,
+}) {
   const [state, dispatch] = React.useReducer(reducer, {
     basicInformation,
+    categoryList,
   });
   return (
     <WebInterfaceContext.Provider value={{ state, dispatch }}>

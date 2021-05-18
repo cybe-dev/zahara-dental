@@ -4,11 +4,12 @@ import Link from "next/link";
 export function GalleryList({ text, slug, image }) {
   return (
     <Link href={`/layanan/${slug}`}>
-      <a className="p-2">
+      <a className="p-2" title={text}>
         <div className="ratio-1-1">
           <div className="rounded-xl absolute top-0 left-0 w-full h-full flex justify-center items-center">
             {image ? (
               <Image
+                alt={text}
                 src={image}
                 width={500}
                 height={500}

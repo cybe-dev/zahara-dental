@@ -20,6 +20,7 @@ export default function Footer() {
           href={`http://wa.me/${basicInformation?.whatsapp
             .replace(/[^0-9]/g, "")
             .replace(/^08/, "628")}`}
+          title="Support"
         >
           <Whatsapp
             className="w-5 h-5 lg:w-6 lg:h-6"
@@ -27,9 +28,9 @@ export default function Footer() {
           />
         </a>
       </div>
-      <div className="bg-primary-100 border-t border-primary-200">
+      <div className="bg-primary-300 border-t border-primary-200">
         <Container className="text-grayscale-100 text-center p-3">
-          &copy; 2021 {basicInformation?.clinicName}
+          &copy;2021 {basicInformation?.clinicName}
         </Container>
       </div>
     </>

@@ -6,7 +6,10 @@ export function ServiceList({ icon, slug, name }) {
 
   return (
     <Link href={`/layanan/${slug}`}>
-      <a className="group hover:shadow-lg cursor-pointer bg-grayscale-100 py-4 px-5 rounded-lg text-grayscale-800 font-bold arimo flex lg:text-lg items-center">
+      <a
+        className="group hover:shadow-lg cursor-pointer bg-grayscale-100 py-4 px-5 rounded-lg text-grayscale-800 font-bold arimo flex lg:text-lg items-center"
+        title={name}
+      >
         <span className="w-10 h-10 rounded-full border border-primary-400 flex justify-center items-center">
           <Icon width={24} height={24} fill={theme.colors.primary[400]} />
         </span>

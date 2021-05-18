@@ -6,18 +6,25 @@ import { default as PromoParent, PromoList } from "../../src/components/Promo";
 import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
+  let blog, basicInformation, categoryList, categoryName, count;
   const limit = 12;
-  let blog, basicInformation, categoryList, count;
+  const { slug } = context.params;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
     categoryList = (await service.get("/blog/category?notnull=1")).data.success
       .data;
+    const categoryId = categoryList?.find(
+      (predicate) => predicate.slug === slug
+    );
     const getBlog = (
-      await service.get("/blog", { params: { offset: 0, limit } })
+      await service.get(`/blog?category=${categoryId.id}`, {
+        params: { offset: 0, limit },
+      })
     ).data.success.data;
     blog = getBlog.rows;
     count = getBlog.count;
+    categoryName = categoryId.name;
   } catch (e) {
     return {
       props: {
@@ -32,23 +39,34 @@ export const getServerSideProps = async (context) => {
       blog,
       count,
       limit,
+      slug,
       blogPage: true,
       categoryList,
+      categoryName,
       metaTag: [
         {
           name: "description",
-          content: `Kumpulan artikel dari ${basicInformation.clinicName} yang mungkin dapat membantu`,
+          content: `Kumpulan artikel dalam kategori ${categoryName} dari ${basicInformation.clinicName} yang mungkin dapat membantu`,
         },
       ],
     },
   };
 };
 
-export default function Blog({ blog, basicInformation, count, limit }) {
+export default function Blog({
+  blog,
+  categoryName,
+  basicInformation,
+  count,
+  limit,
+  slug,
+}) {
   return (
     <Container>
       <Head>
-        <title>Blog - {basicInformation.clinicName}</title>
+        <title>
+          {categoryName} - {basicInformation.clinicName}
+        </title>
       </Head>
       <HeadingPage
         Heading="h1"
@@ -57,8 +75,12 @@ export default function Blog({ blog, basicInformation, count, limit }) {
             href: "/",
             title: "Beranda",
           },
+          {
+            href: "/blog",
+            title: "Blog",
+          },
         ]}
-        title="Blog"
+        title={categoryName}
       />
       {blog.length ? (
         <>
@@ -78,7 +100,7 @@ export default function Blog({ blog, basicInformation, count, limit }) {
             <Pagination
               now={1}
               total={Math.ceil(count / limit)}
-              prefix="/blog/page/"
+              prefix={`/${slug}/page/`}
             />
           )}
         </>

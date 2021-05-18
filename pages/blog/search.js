@@ -2,11 +2,23 @@ import Head from "next/head";
 import Container from "../../src/components/Container";
 import HeadingPage from "../../src/components/HeadingPage";
 import NotFound from "../../src/components/NotFound";
+import Pagination from "../../src/components/Pagination";
 import { default as PromoParent, PromoList } from "../../src/components/Promo";
 import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
   const limit = 12;
+  const { q = "", page = 1 } = context.query || {};
+  const offset = (parseInt(page) - 1) * limit;
+
+  if (Number.isNaN(offset)) {
+    return {
+      props: {
+        status: 404,
+      },
+    };
+  }
+
   let blog, basicInformation, categoryList, count;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
@@ -14,7 +26,7 @@ export const getServerSideProps = async (context) => {
     categoryList = (await service.get("/blog/category?notnull=1")).data.success
       .data;
     const getBlog = (
-      await service.get("/blog", { params: { offset: 0, limit } })
+      await service.get("/blog", { params: { offset, limit, q } })
     ).data.success.data;
     blog = getBlog.rows;
     count = getBlog.count;
@@ -30,25 +42,36 @@ export const getServerSideProps = async (context) => {
     props: {
       basicInformation,
       blog,
-      count,
       limit,
+      count,
       blogPage: true,
       categoryList,
+      q,
+      page,
       metaTag: [
         {
           name: "description",
-          content: `Kumpulan artikel dari ${basicInformation.clinicName} yang mungkin dapat membantu`,
+          content: `Hasil pencarian artikel dengan kata kunci "${q}"`,
         },
       ],
     },
   };
 };
 
-export default function Blog({ blog, basicInformation, count, limit }) {
+export default function Search({
+  blog,
+  basicInformation,
+  q,
+  page,
+  limit,
+  count,
+}) {
   return (
     <Container>
       <Head>
-        <title>Blog - {basicInformation.clinicName}</title>
+        <title>
+          Hasil Pencarian "{q}" / {page} - {basicInformation.clinicName}
+        </title>
       </Head>
       <HeadingPage
         Heading="h1"
@@ -57,10 +80,14 @@ export default function Blog({ blog, basicInformation, count, limit }) {
             href: "/",
             title: "Beranda",
           },
+          {
+            href: "/blog",
+            title: "Blog",
+          },
         ]}
-        title="Blog"
+        title="Hasil Pencarian"
       />
-      {blog.length ? (
+      {blog.length && (
         <>
           <PromoParent>
             {blog?.map((item, index) => (
@@ -76,15 +103,14 @@ export default function Blog({ blog, basicInformation, count, limit }) {
           </PromoParent>
           {Math.ceil(count / limit) > 1 && (
             <Pagination
-              now={1}
+              now={parseInt(page)}
               total={Math.ceil(count / limit)}
-              prefix="/blog/page/"
+              prefix={"/blog/search?q=" + q + "&page="}
             />
           )}
         </>
-      ) : (
-        <NotFound />
       )}
+      {blog.length === 0 && <NotFound />}
     </Container>
   );
 }

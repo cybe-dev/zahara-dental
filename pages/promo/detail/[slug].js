@@ -41,17 +41,26 @@ export const getServerSideProps = async (context) => {
     props: {
       basicInformation,
       detail,
+      metaTag: [
+        {
+          name: "description",
+          content: detail.text.replace(/<\/?[^>]+(>|$)/gm, "").substr(0, 150),
+        },
+      ],
     },
   };
 };
 
-export default function PromoDetail({ detail }) {
+export default function PromoDetail({ detail, basicInformation }) {
   return (
     <Container>
       <Head>
-        <title>{detail.title}</title>
+        <title>
+          {detail.title} - {basicInformation.clinicName}
+        </title>
       </Head>
       <HeadingPage
+        Heading="h1"
         breadcrumbItems={[
           {
             href: "/",
@@ -61,22 +70,20 @@ export default function PromoDetail({ detail }) {
             href: "/promo",
             title: "Promo",
           },
-          {
-            title: detail.title,
-          },
         ]}
         title={detail.title}
       />
       <BaseCard className="mb-16">
         <div className="mb-5 pb-5 border-b border-grayscale-200">
-          <span className="roboto text-grayscale-700">
+          <h2 className="roboto text-grayscale-700">
             {moment(detail.createdAt).locale("id").format("dddd, DD MMMM YYYY")}
-          </span>
+          </h2>
         </div>
         {detail.thumbnail && (
           <div className="lg:w-2/3 mx-auto">
             <div className="image-container relative">
               <Image
+                alt={detail.title}
                 src={detail.thumbnail?.replace(
                   "public",
                   process.env.NEXT_PUBLIC_BASE_URL

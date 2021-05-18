@@ -55,6 +55,10 @@
   font-family: "Arimo", sans-serif;
 }
 
+.noto {
+  font-family: "Noto Sans", sans-serif;
+}
+
 .ratio-1-1 {
   width: 100%;
   padding-top: 100%;
@@ -88,6 +92,8 @@
 
 .breadcrumb {
   @apply flex;
+  @apply justify-center;
+  @apply flex-wrap;
 }
 
 .breadcrumb li + li:before {
@@ -102,6 +108,7 @@
   font-family: "Roboto", sans-serif;
   @apply text-sm;
   @apply lg:text-base;
+  @apply text-center;
 }
 
 .breadcrumb li a:hover {

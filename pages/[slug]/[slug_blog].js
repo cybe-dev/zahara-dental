@@ -6,7 +6,7 @@ import HeadingPage from "../../src/components/HeadingPage";
 import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
-  const { slug } = context.params;
+  const { slug, slug_blog } = context.params;
   let detail, basicInformation, categoryList;
   try {
     categoryList = (await service.get("/blog/category?notnull=1")).data.success
@@ -22,7 +22,7 @@ export const getServerSideProps = async (context) => {
   }
 
   try {
-    detail = (await service.get(`/blog/slug/${slug}`)).data.success.data;
+    detail = (await service.get(`/blog/slug/${slug_blog}`)).data.success.data;
   } catch (e) {
     if (e.response?.status === 404) {
       return {
@@ -38,7 +38,7 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  if (detail.category) {
+  if (!detail.category || detail.category?.slug !== slug) {
     return {
       props: {
         status: 404,
@@ -80,6 +80,10 @@ export default function BlogDetail({ detail, basicInformation }) {
           {
             href: "/blog",
             title: "Blog",
+          },
+          {
+            href: `/${detail.category.slug}`,
+            title: detail.category.name,
           },
         ]}
         title={detail.title}

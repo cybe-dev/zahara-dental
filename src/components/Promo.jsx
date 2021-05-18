@@ -10,11 +10,15 @@ export const PromoList = ({
   prefix = "/promo/detail",
 }) => (
   <Link href={`${prefix}/${slug}`}>
-    <a className="flex flex-col bg-grayscale-100 hover:shadow-lg rounded-lg roboto text-grayscale-700">
+    <a
+      className="flex flex-col bg-grayscale-100 hover:shadow-lg rounded-lg roboto text-grayscale-700"
+      title={title}
+    >
       <div className="ratio-16-9 bg-grayscale-300 rounded-t-lg relative">
         {imgSource && (
           <div className="w-full h-full absolute top-0 left-0">
             <Image
+              alt={title}
               src={imgSource}
               layout="fill"
               objectFit="cover"

@@ -1,32 +1,37 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Container from "../../src/components/Container";
-import HeadingPage from "../../src/components/HeadingPage";
-import Pagination from "../../src/components/Pagination";
-import { default as PromoParent, PromoList } from "../../src/components/Promo";
-import service from "../../src/service";
+import Container from "../../../src/components/Container";
+import HeadingPage from "../../../src/components/HeadingPage";
+import NotFound from "../../../src/components/NotFound";
+import {
+  default as PromoParent,
+  PromoList,
+} from "../../../src/components/Promo";
+import service from "../../../src/service";
 
 export const getServerSideProps = async (context) => {
-  const { page } = context.params;
+  let blog, basicInformation, categoryList, count;
   const limit = 12;
+  const { page } = context.params;
   const offset = (parseInt(page) - 1) * limit;
-  let promo, basicInformation, count;
+
+  if (Number.isNaN(offset)) {
+    return {
+      props: {
+        status: 404,
+      },
+    };
+  }
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
-    const getPromo = (
-      await service.get("/post/promo", { params: { offset, limit } })
+    categoryList = (await service.get("/blog/category?notnull=1")).data.success
+      .data;
+    const getBlog = (
+      await service.get("/blog", { params: { offset, limit: 12 } })
     ).data.success.data;
-    promo = getPromo.rows;
-    count = getPromo.count;
+    blog = getBlog.rows;
+    count = getBlog.count;
   } catch (e) {
-    if (Number.isNaN(offset)) {
-      return {
-        props: {
-          status: 404,
-        },
-      };
-    }
     return {
       props: {
         status: 500,
@@ -34,7 +39,7 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  if (promo.length === 0) {
+  if (blog.length === 0) {
     return {
       props: {
         status: 404,
@@ -45,27 +50,28 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       basicInformation,
-      promo,
+      blog,
+      blogPage: true,
+      categoryList,
       page,
       count,
       limit,
       metaTag: [
         {
           name: "description",
-          content: `Kumpulan promo-promo menarik dari klinik ${basicInformation.clinicName}`,
+          content: `Kumpulan artikel dari ${basicInformation.clinicName} yang mungkin dapat membantu`,
         },
       ],
     },
   };
 };
 
-export default function Promo({ promo, page, basicInformation, count, limit }) {
-  const router = useRouter();
+export default function Blog({ blog, basicInformation, page }) {
   return (
     <Container>
       <Head>
         <title>
-          Promo / Halaman : {page} - {basicInformation.clinicName}
+          Blog / {page} - {basicInformation.clinicName}
         </title>
       </Head>
       <HeadingPage
@@ -76,19 +82,17 @@ export default function Promo({ promo, page, basicInformation, count, limit }) {
             title: "Beranda",
           },
         ]}
-        title="Promo"
+        title="Blog"
       />
       <PromoParent>
-        {promo?.map((item, index) => (
+        {blog?.map((item, index) => (
           <PromoList
             key={`${index}`}
             title={item.title}
-            imgSource={item.thumbnail?.replace(
-              "public",
-              process.env.NEXT_PUBLIC_BASE_URL
-            )}
+            imgSource={item.thumbnail}
             time={item.createdAt}
             slug={item.slug}
+            prefix={item.category ? `/${item.category.slug}` : `/blog`}
           />
         ))}
       </PromoParent>
@@ -96,7 +100,7 @@ export default function Promo({ promo, page, basicInformation, count, limit }) {
         <Pagination
           now={parseInt(page)}
           total={Math.ceil(count / limit)}
-          prefix="/promo/"
+          prefix="/blog/page/"
         />
       )}
     </Container>

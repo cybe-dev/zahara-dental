@@ -42,17 +42,26 @@ export const getServerSideProps = async (context) => {
     props: {
       basicInformation,
       detail,
+      metaTag: [
+        {
+          name: "description",
+          content: detail.text.substr(0, 150),
+        },
+      ],
     },
   };
 };
 
-export default function ServiceDetail({ detail }) {
+export default function ServiceDetail({ detail, basicInformation }) {
   return (
     <Container className="mb-8">
       <Head>
-        <title>{detail.title}</title>
+        <title>
+          {detail.title} - {basicInformation.clinicName}
+        </title>
       </Head>
       <HeadingPage
+        Heading="h1"
         breadcrumbItems={[
           {
             href: "/",
@@ -61,9 +70,6 @@ export default function ServiceDetail({ detail }) {
           {
             href: "/layanan",
             title: "Layanan",
-          },
-          {
-            title: detail.title,
           },
         ]}
         title={detail.title}
@@ -84,6 +90,7 @@ export default function ServiceDetail({ detail }) {
                 "public",
                 process.env.NEXT_PUBLIC_BASE_URL
               )}
+              alt={"Gambar " + detail.title}
               layout="fill"
               quality={5}
               className="image rounded-md"
