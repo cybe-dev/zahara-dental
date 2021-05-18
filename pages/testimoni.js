@@ -25,7 +25,7 @@ export const getServerSideProps = async () => {
       metaTag: [
         {
           name: "description",
-          content: `Kumpulan testimoni positif dari pasien yang pernah melakukan perawatan di ${basicInformation.clinicName}`,
+          content: `Apa kata mereka yang pernah melakukan perawatan di ${basicInformation.clinicName}`,
         },
       ],
     },

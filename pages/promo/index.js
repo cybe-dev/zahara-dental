@@ -7,7 +7,7 @@ import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
   const limit = 12;
-  let promo, basicInformation;
+  let promo, basicInformation, count;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;

@@ -26,12 +26,11 @@ const NavbarList = ({ href, title }) => {
   );
 };
 
-export default function BlogHeader({ h1 = false }) {
+export default function BlogHeader({ h1 = false, categoryList }) {
   const HeadComponent = h1 ? "h1" : "div";
   const {
-    state: { basicInformation, categoryList },
+    state: { basicInformation },
   } = useWeb();
-  const router = useRouter();
 
   return (
     <>

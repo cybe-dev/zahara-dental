@@ -43,10 +43,7 @@ function MyApp({ Component, pageProps }) {
       );
     } else {
       return (
-        <WebInterface
-          basicInformation={pageProps.basicInformation}
-          categoryList={pageProps.categoryList}
-        >
+        <WebInterface basicInformation={pageProps.basicInformation}>
           {pageProps.metaTag?.length && (
             <Head>
               {pageProps.metaTag.map((item, index) => (
@@ -66,7 +63,10 @@ function MyApp({ Component, pageProps }) {
             />
           </Head>
           <div className="bg-grayscale-200 min-h-screen w-full overflow-x-hidden flex flex-col">
-            <BlogHeader />
+            <BlogHeader
+              categoryList={pageProps.categoryList}
+              {...pageProps.headerProps}
+            />
             <div className="flex-1">
               <Component {...pageProps} />
             </div>

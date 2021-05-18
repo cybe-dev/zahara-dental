@@ -19,6 +19,6 @@ module.exports = {
     ];
   },
   images: {
-    domains: ["localhost", "ak-cms.akbaraditama.com", "192.168.43.184"],
+    domains: [process.env.IMAGE_DOMAIN],
   },
 };

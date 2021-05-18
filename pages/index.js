@@ -90,7 +90,12 @@ export default function Home({
           <div className="absolute right-0 z-10 top-0 bottom-0 items-center pt-16 hidden lg:flex">
             <div className="lg:p-2 xl:p-5 bg-grayscale-100 shadow-lg rounded-lg">
               <Image
-                src="/images/dentist.jpg"
+                src={
+                  basicInformation.frontImage?.replace(
+                    "public",
+                    process.env.NEXT_PUBLIC_BASE_URL
+                  ) || "/images/dentist.jpg"
+                }
                 alt="Dental Care"
                 width={240}
                 height={320}
@@ -206,7 +211,14 @@ export default function Home({
             <div className="arimo mt-3 lg:w-64 flex flex-col">
               <strong className="text-grayscale-800 font-bold">Alamat</strong>
               <span className="text-grayscale-700 flex-1">
-                {basicInformation?.address}
+                {basicInformation?.address} <br />
+                <a
+                  href={basicInformation.gmaps}
+                  title={`Google Maps ${basicInformation.clinicName}`}
+                  className="text-primary-200"
+                >
+                  Lihat Maps
+                </a>
               </span>
             </div>
           </div>
