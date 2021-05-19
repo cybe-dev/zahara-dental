@@ -5,7 +5,6 @@ import Header from "../src/components/Header";
 import Footer from "../src/components/Footer";
 import WebInterface from "../src/context/web-interface";
 import BlogHeader from "../src/components/BlogHeader";
-import BlogFooter from "../src/components/BlogFooter";
 
 function MyApp({ Component, pageProps }) {
   if (pageProps.status === 500) {
@@ -70,7 +69,7 @@ function MyApp({ Component, pageProps }) {
             <div className="flex-1">
               <Component {...pageProps} />
             </div>
-            <BlogFooter />
+            <Footer withoutSupport={true} />
           </div>
         </WebInterface>
       );
