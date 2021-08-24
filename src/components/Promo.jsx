@@ -18,6 +18,7 @@ export const PromoList = ({
         {imgSource && (
           <div className="w-full h-full absolute top-0 left-0">
             <Image
+              unoptimized={true}
               alt={title}
               src={imgSource}
               layout="fill"

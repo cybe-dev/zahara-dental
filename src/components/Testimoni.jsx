@@ -7,6 +7,7 @@ export const TestimoniList = ({ children, name, title, pic }) => (
       <div className="w-12 h-12 relative rounded-full bg-grayscale-300">
         {pic && (
           <Image
+            unoptimized={true}
             src={pic}
             height={64}
             width={64}

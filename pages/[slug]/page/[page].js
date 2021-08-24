@@ -26,12 +26,27 @@ export const getServerSideProps = async (context) => {
       .data;
     categoryList = (await service.get("/blog/category?notnull=1")).data.success
       .data;
-    const categoryId = categoryList?.find(
-      (predicate) => predicate.slug === slug
-    );
+  } catch (e) {
+    return {
+      props: {
+        status: 500,
+      },
+    };
+  }
+
+  const categoryId = categoryList?.find((predicate) => predicate.slug === slug);
+  if (!categoryId) {
+    return {
+      props: {
+        status: 400,
+      },
+    };
+  }
+
+  try {
     const getBlog = (
       await service.get(`/blog?category=${categoryId.id}`, {
-        params: { offset, limit },
+        params: { offset: 0, limit },
       })
     ).data.success.data;
     blog = getBlog.rows;

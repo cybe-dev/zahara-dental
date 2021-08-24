@@ -13,7 +13,7 @@ export function ServiceList({ icon, slug, name }) {
         <span className="w-10 h-10 rounded-full border border-primary-400 flex justify-center items-center">
           <Icon width={24} height={24} fill={theme.colors.primary[400]} />
         </span>
-        <span className="ml-3">{name}</span>
+        <span className="ml-3 flex-1">{name}</span>
       </a>
     </Link>
   );

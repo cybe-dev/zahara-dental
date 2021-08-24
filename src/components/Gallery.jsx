@@ -9,6 +9,7 @@ export function GalleryList({ text, slug, image }) {
           <div className="rounded-xl absolute top-0 left-0 w-full h-full flex justify-center items-center">
             {image ? (
               <Image
+                unoptimized={true}
                 alt={text}
                 src={image}
                 width={500}

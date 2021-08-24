@@ -7,10 +7,14 @@ import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
   const limit = 12;
-  let promo, basicInformation, count;
+  let promo, basicInformation, services, subServices, count;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
+    services = (await service.get("/post/layanan?limit=100&nodesc=1")).data
+      .success.data.rows;
+    subServices = (await service.get("/post/sub-layanan?limit=100&nodesc=1"))
+      .data.success.data.rows;
     const getPromo = (
       await service.get("/post/promo", { params: { offset: 0, limit } })
     ).data.success.data;
@@ -30,6 +34,8 @@ export const getServerSideProps = async (context) => {
       promo,
       count,
       limit,
+      services,
+      subServices,
       metaTag: [
         {
           name: "description",

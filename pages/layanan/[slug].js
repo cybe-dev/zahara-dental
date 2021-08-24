@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import { Fragment } from "react";
 import Masonry from "react-masonry-css";
 import BaseCard from "../../src/components/BaseCard";
 import Container from "../../src/components/Container";
@@ -8,10 +9,14 @@ import service from "../../src/service";
 
 export const getServerSideProps = async (context) => {
   const { slug } = context.params;
-  let detail, basicInformation;
+  let detail, basicInformation, services, subServices;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
+    services = (await service.get("/post/layanan?limit=100&nodesc=1")).data
+      .success.data.rows;
+    subServices = (await service.get("/post/sub-layanan?limit=100&nodesc=1"))
+      .data.success.data.rows;
   } catch (e) {
     return {
       props: {
@@ -38,10 +43,20 @@ export const getServerSideProps = async (context) => {
     };
   }
 
+  const subs = [];
+  for (let sub of subServices) {
+    if (sub.thumbnail === `${detail.id}`) {
+      subs.push(sub);
+    }
+  }
+
   return {
     props: {
       basicInformation,
       detail,
+      services,
+      subs,
+      subServices,
       metaTag: [
         {
           name: "description",
@@ -52,7 +67,7 @@ export const getServerSideProps = async (context) => {
   };
 };
 
-export default function ServiceDetail({ detail, basicInformation }) {
+export default function ServiceDetail({ detail, basicInformation, subs }) {
   return (
     <Container className="mb-8">
       <Head>
@@ -74,7 +89,24 @@ export default function ServiceDetail({ detail, basicInformation }) {
         ]}
         title={detail.title}
       />
-      <BaseCard className="mb-8">{detail.text}</BaseCard>
+      <BaseCard className="mb-8 noreset">
+        <p>{detail.text}</p>
+        {subs.length > 0 && (
+          <Fragment>
+            <p>
+              Jenis layanan <b>{detail.title}</b> yang tersedia di{" "}
+              <b>{basicInformation.clinicName}</b>:
+            </p>
+            <ul>
+              {subs.map((item, index) => (
+                <li key={`${index}`} id={`#${item.slug}`}>
+                  {item.title}
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        )}
+      </BaseCard>
       <Masonry
         breakpointCols={{
           default: 3,
@@ -86,6 +118,7 @@ export default function ServiceDetail({ detail, basicInformation }) {
         {detail.pictures?.map((item, index) => (
           <div className="w-full image-container" key={`${index}`}>
             <Image
+              unoptimized={true}
               src={item.path.replace(
                 "public",
                 process.env.NEXT_PUBLIC_BASE_URL

@@ -10,10 +10,14 @@ export const getServerSideProps = async (context) => {
   const { page } = context.params;
   const limit = 12;
   const offset = (parseInt(page) - 1) * limit;
-  let promo, basicInformation, count;
+  let promo, basicInformation, count, services, subServices;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
+    services = (await service.get("/post/layanan?limit=100&nodesc=1")).data
+      .success.data.rows;
+    subServices = (await service.get("/post/sub-layanan?limit=100&nodesc=1"))
+      .data.success.data.rows;
     const getPromo = (
       await service.get("/post/promo", { params: { offset, limit } })
     ).data.success.data;
@@ -49,6 +53,8 @@ export const getServerSideProps = async (context) => {
       page,
       count,
       limit,
+      services,
+      subServices,
       metaTag: [
         {
           name: "description",

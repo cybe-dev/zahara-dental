@@ -8,10 +8,14 @@ import service from "../../../src/service";
 
 export const getServerSideProps = async (context) => {
   const { slug } = context.params;
-  let detail, basicInformation;
+  let detail, basicInformation, services, subServices;
   try {
     basicInformation = (await service.get("/basic-information")).data.success
       .data;
+    services = (await service.get("/post/layanan?limit=100&nodesc=1")).data
+      .success.data.rows;
+    subServices = (await service.get("/post/sub-layanan?limit=100&nodesc=1"))
+      .data.success.data.rows;
   } catch (e) {
     return {
       props: {
@@ -41,6 +45,8 @@ export const getServerSideProps = async (context) => {
     props: {
       basicInformation,
       detail,
+      services,
+      subServices,
       metaTag: [
         {
           name: "description",
@@ -83,6 +89,7 @@ export default function PromoDetail({ detail, basicInformation }) {
           <div className="lg:w-2/3 mx-auto">
             <div className="image-container relative">
               <Image
+                unoptimized={true}
                 alt={detail.title}
                 src={detail.thumbnail?.replace(
                   "public",

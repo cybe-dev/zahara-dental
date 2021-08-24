@@ -32,7 +32,14 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      translate: ["group-hover", "group-focus"],
+      width: ["group-hover", "group-focus"],
+      padding: ["group-hover", "group-focus"],
+      display: ["group-hover", "group-focus"],
+      overflow: ["hover", "group-focus"],
+      boxShadow: ["group-hover"],
+    },
   },
   plugins: [],
 };

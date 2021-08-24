@@ -23,11 +23,38 @@
 
 .navbar ul li a {
   font-family: "Noto Sans", sans-serif;
-  @apply py-1;
-  @apply text-grayscale-700;
+  @apply py-2;
+  @apply lg:text-sm;
+  @apply text-grayscale-600;
   @apply hover:text-primary-300;
   @apply relative;
   @apply block;
+  @apply font-bold;
+}
+
+.navbar ul li span {
+  font-family: "Noto Sans", sans-serif;
+  @apply py-2;
+  @apply lg:text-sm;
+  @apply text-grayscale-600;
+  @apply hover:text-primary-300;
+  @apply relative;
+  @apply font-bold;
+}
+
+.navbar ul li ul li a,
+.navbar ul li ul li span {
+  font-family: "Noto Sans", sans-serif;
+  @apply py-2;
+  @apply text-grayscale-600;
+  @apply hover:text-primary-300;
+  @apply relative;
+  @apply block;
+  @apply font-normal;
+}
+
+.navbar ul li ul li + li {
+  @apply lg:ml-0;
 }
 
 .navbar ul li a:after {
@@ -45,6 +72,10 @@
 }
 .navbar ul li a:hover:after {
   @apply lg:w-full;
+}
+
+.navbar ul li ul li a:after {
+  content: unset;
 }
 
 .poppins {

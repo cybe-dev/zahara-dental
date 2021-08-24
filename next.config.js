@@ -12,13 +12,13 @@ module.exports = {
         permanent: true,
       },
       {
-        source: "/[slug]/page/1",
-        destination: "/[slug]",
+        source: "/:slug/page/1",
+        destination: "/:slug",
         permanent: true,
       },
     ];
   },
   images: {
-    domains: [process.env.IMAGE_DOMAIN],
+    domains: ["admin.zaharadental.com"],
   },
 };

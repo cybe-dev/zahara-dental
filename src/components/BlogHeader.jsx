@@ -34,12 +34,13 @@ export default function BlogHeader({ h1 = false, categoryList }) {
 
   return (
     <>
-      <div className="bg-grayscale-100 pt-5 fixed top-0 left-0 w-full z-20 shadow-md">
+      <div className="bg-grayscale-100 pt-3 fixed top-0 left-0 w-full z-20 shadow-md">
         <Container className="flex items-center">
-          <HeadComponent className="w-1/3 lg:w-1/5">
+          <HeadComponent className="w-2/5 lg:w-1/5">
             <Link href="/">
-              <a className="font-bold text-primary-100 flex items-center h-8 w-full relative">
+              <a className="font-bold text-primary-100 flex items-center h-10 w-full relative">
                 <Image
+                  unoptimized={true}
                   src={basicInformation?.logo?.replace(
                     "public",
                     process.env.NEXT_PUBLIC_BASE_URL
@@ -55,8 +56,8 @@ export default function BlogHeader({ h1 = false, categoryList }) {
           </HeadComponent>
           <div className="w-full bg-grayscale-200 rounded-full flex items-center ml-5">
             <Search
-              width={16}
-              height={16}
+              width={14}
+              height={14}
               className="m-3"
               fill={theme.colors.grayscale[700]}
             />
@@ -70,7 +71,7 @@ export default function BlogHeader({ h1 = false, categoryList }) {
                 }
               }}
               placeholder="Cari Artikel"
-              className="h-8 w-full bg-transparent focus:ring-offset-transparent"
+              className="h-6 w-full bg-transparent focus:ring-offset-transparent"
             />
           </div>
         </Container>

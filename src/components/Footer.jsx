@@ -10,17 +10,17 @@ export default function Footer({ withoutSupport = false }) {
   return (
     <>
       {!withoutSupport && (
-        <div className="fixed bottom-0 right-0 m-5 lg:m-8 flex items-center z-20">
+        <div className="fixed bottom-0 right-0 m-5 lg:m-8 flex items-center z-10">
           <span className="bg-grayscale-100 text-grayscale-800 p-2 px-3 rounded mr-2 text-xs lg:text-sm shadow">
-            Butuh bantuan?
+            Butuh bantuan? Chat whatsapp
           </span>
           <a
             className="p-3 bg-primary-100 flex items-center justify-center rounded-full shadow"
             style={{ backgroundColor: "#128C7E" }}
             target="_blank"
             href={`http://wa.me/${basicInformation?.whatsapp
-              .replace(/[^0-9]/g, "")
-              .replace(/^08/, "628")}`}
+              ?.replace(/[^0-9]/g, "")
+              ?.replace(/^08/, "628")}`}
             title="Support"
           >
             <Whatsapp
